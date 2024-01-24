@@ -17,15 +17,6 @@
       background-position: right bottom;
     }
 
-    #audio {
-      position: absolute;
-      right: 20px;
-      bottom: 20px;
-      opacity: 10%;
-      transition: opacity 200ms;
-      z-index: 20;
-    }
-
     #audio:hover {
       opacity: 90%;
     }
@@ -34,9 +25,6 @@
 
 <body>
   <canvas id="canvas"></canvas>
-  <audio id="audio" controls loop autoplay>
-    <source src="./audio/cef.mp3" type="audio/mpeg" />
-  </audio>
   <!-- 顶点着色器 -->
   <script id="vertexShader" type="x-shader/x-vertex">
       attribute vec4 a_Position;
