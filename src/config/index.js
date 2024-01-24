@@ -95,7 +95,7 @@ export const menuList = [
             {
                 index: '3-12',
                 title: "多边形模块化",
-                url: `${BASE_PATH}03-绘制三角形/11-多边形模块化.html`,
+                url: `${BASE_PATH}03-绘制三角形/11-图形封装.html`,
             },
             {
                 index: '3-13',
@@ -103,11 +103,11 @@ export const menuList = [
                 url: `${BASE_PATH}03-绘制三角形/12-鼠标画线.html`,
             },
             {
-                index: '3-14',
+                index: '3-14-1',
                 title: "鼠标绘制线条",
                 url: `${BASE_PATH}03-绘制三角形/12-鼠标绘制线条.html`,
             }, {
-                index: '3-14',
+                index: '3-14-2',
                 title: "鼠标画多线",
                 url: `${BASE_PATH}03-绘制三角形/13-鼠标画多线.html`,
             },
@@ -231,7 +231,7 @@ export const menuList = [
             {
                 index: "5-5",
                 title: "综合变换",
-                url: `${BASE_PATH}05-复合变换/05综合变换.html`,
+                url: `${BASE_PATH}05-复合变换/05-综合变换.html`,
             },
             {
                 index: "5-6",
@@ -261,12 +261,12 @@ export const menuList = [
             {
                 index: "5-8-2",
                 title: "塑形",
-                url: `${BASE_PATH}05-复合变换/08-02塑形.html`,
+                url: `${BASE_PATH}05-复合变换/08-02-塑形.html`,
             },
             {
                 index: "5-8-3",
                 title: "风起",
-                url: `${BASE_PATH}05-复合变换/08-02风起.html`,
+                url: `${BASE_PATH}05-复合变换/08-03-风起.html`,
             },
         ]
     },
@@ -291,8 +291,8 @@ export const menuList = [
             },
             {
                 index: '6-4',
-                title: '彩色三角',
-                url: `${BASE_PATH}06-颜色与纹理/04-彩色三角.html`,
+                title: '彩色三角形',
+                url: `${BASE_PATH}06-颜色与纹理/04-彩色三角形.html`,
             },
             {
                 index: '6-5',
@@ -397,176 +397,176 @@ export const menuList = [
         children: [{
             index: '8-1',
             title: '打印向量',
-            url: `${BASE_PATH}08-GISI ES语言/01-打印向量.html`,
+            url: `${BASE_PATH}08-GlSlES语言/01-打印向量.html`,
         },
         {
             index: '8-2-1',
             title: '打印多个向量',
-            url: `${BASE_PATH}08-GISI ES语言/02-01-打印多个向量.html`,
+            url: `${BASE_PATH}08-GlSlES语言/02-01-打印多个向量.html`,
         },
         {
             index: '8-2-2',
             title: '打印多个向量-适配',
-            url: `${BASE_PATH}08-GISI ES语言/02-02-打印多个向量-适配.html`,
+            url: `${BASE_PATH}08-GlSlES语言/02-02-打印多个向量-适配.html`,
         },
         {
             index: '8-3',
             title: '基本规范',
-            url: `${BASE_PATH}08-GISI ES语言/03-基本规范.html`,
+            url: `${BASE_PATH}08-GlSlES语言/03-基本规范.html`,
         },
         {
             index: '8-4',
             title: '变量',
-            url: `${BASE_PATH}08-GISI ES语言/04-变量.html`,
+            url: `${BASE_PATH}08-GlSlES语言/04-变量.html`,
         },
         {
             index: '8-5',
             title: '向量',
-            url: `${BASE_PATH}08-GISI ES语言/05-向量.html`,
+            url: `${BASE_PATH}08-GlSlES语言/05-向量.html`,
         }, {
             index: '8-6',
             title: '矩阵',
-            url: `${BASE_PATH}08-GISI ES语言/06-矩阵.html`,
+            url: `${BASE_PATH}08-GlSlES语言/06-矩阵.html`,
         },
         {
             index: '8-7',
             title: '向量运算',
-            url: `${BASE_PATH}08-GISI ES语言/07-向量运算.html`,
+            url: `${BASE_PATH}08-GlSlES语言/07-向量运算.html`,
         },
         {
             index: '8-8',
             title: '矩阵运算',
-            url: `${BASE_PATH}08-GISI ES语言/08-矩阵运算.html`,
+            url: `${BASE_PATH}08-GlSlES语言/08-矩阵运算.html`,
         },
         {
             index: '8-9',
             title: 'struct',
-            url: `${BASE_PATH}08-GISI ES语言/09-struct.html`,
+            url: `${BASE_PATH}08-GlSlES语言/09-struct.html`,
         },
         {
             index: '8-10',
             title: '数组',
-            url: `${BASE_PATH}08-GISI ES语言/10-数组.html`,
+            url: `${BASE_PATH}08-GlSlES语言/10-数组.html`,
         },
         {
             index: '8-11',
             title: 'for循环',
-            url: `${BASE_PATH}08-GISI ES语言/11-for循环.html`,
+            url: `${BASE_PATH}08-GlSlES语言/11-for循环.html`,
         },
         {
             index: '8-12',
             title: '函数',
-            url: `${BASE_PATH}08-GISI ES语言/12-函数.html`,
+            url: `${BASE_PATH}08-GlSlES语言/12-函数.html`,
         }, {
             index: '8-13',
             title: '限定词',
-            url: `${BASE_PATH}08-GISI ES语言/13-限定词.html`,
+            url: `${BASE_PATH}08-GlSlES语言/13-限定词.html`,
         },
         {
             index: '8-14',
             title: '变量的作用域',
-            url: `${BASE_PATH}08-GISI ES语言/14-变量的作用域.html`,
+            url: `${BASE_PATH}08-GlSlES语言/14-变量的作用域.html`,
         },
         {
             index: '8-15',
             title: '渐变的画布',
-            url: `${BASE_PATH}08-GISI ES语言/15-渐变的画布.html`,
+            url: `${BASE_PATH}08-GlSlES语言/15-渐变的画布.html`,
         },
         {
             index: '8-16',
             title: '线性渐变',
-            url: `${BASE_PATH}08-GISI ES语言/16-线性渐变.html`,
+            url: `${BASE_PATH}08-GlSlES语言/16-线性渐变.html`,
         },
         {
             index: '8-17',
             title: '多节点线性渐变',
-            url: `${BASE_PATH}08-GISI ES语言/17-多节点线性渐变.html`,
+            url: `${BASE_PATH}08-GlSlES语言/17-多节点线性渐变.html`,
         },
         {
             index: '8-18',
             title: '多节点线性渐变-js传值',
-            url: `${BASE_PATH}08-GISI ES语言/18-多节点线性渐变.html`,
+            url: `${BASE_PATH}08-GlSlES语言/18-多节点线性渐变-js传值.html`,
         },
         {
             index: '8-19',
             title: '多节点线性渐变-js传值-数据优化',
-            url: `${BASE_PATH}08-GISI ES语言/19-多节点线性渐变-js传值-数据优化.html`,
+            url: `${BASE_PATH}08-GlSlES语言/19-多节点线性渐变-js传值-数据优化.html`,
         }, {
             index: '8-20',
             title: '径向渐变',
-            url: `${BASE_PATH}08-GISI ES语言/20-径向渐变.html`,
+            url: `${BASE_PATH}08-GlSlES语言/20-径向渐变.html`,
         },
         {
             index: '8-21',
             title: '极坐标渐变',
-            url: `${BASE_PATH}08-GISI ES语言/21-极坐标渐变.html`,
+            url: `${BASE_PATH}08-GlSlES语言/21-极坐标渐变.html`,
         },
         {
             index: '8-22',
             title: '三点渐变',
-            url: `${BASE_PATH}08-GISI ES语言/22-三点渐变.html`,
+            url: `${BASE_PATH}08-GlSlES语言/22-三点渐变.html`,
         },
         {
             index: '8-23',
             title: '杂色',
-            url: `${BASE_PATH}08-GISI ES语言/23-杂色.html`,
+            url: `${BASE_PATH}08-GlSlES语言/23-杂色.html`,
         },
         {
             index: '8-24',
             title: '杂色动画',
-            url: `${BASE_PATH}08-GISI ES语言/24-杂色动画.html`,
+            url: `${BASE_PATH}08-GlSlES语言/24-杂色动画.html`,
         },
         {
             index: '8-25',
             title: '肌理',
-            url: `${BASE_PATH}08-GISI ES语言/25-肌理.html`,
+            url: `${BASE_PATH}08-GlSlES语言/25-肌理.html`,
         },
         {
             index: '8-26',
             title: '放射',
-            url: `${BASE_PATH}08-GISI ES语言/26-放射.html`,
+            url: `${BASE_PATH}08-GlSlES语言/26-放射.html`,
         }, {
             index: '8-27',
             title: '放射旋转',
-            url: `${BASE_PATH}08-GISI ES语言/27-放射旋转.html`,
+            url: `${BASE_PATH}08-GlSlES语言/27-放射旋转.html`,
         },
         {
             index: '8-28',
             title: '放射闪烁',
-            url: `${BASE_PATH}08-GISI ES语言/28-放射闪烁.html`,
+            url: `${BASE_PATH}08-GlSlES语言/28-放射闪烁.html`,
         },
         {
             index: '8-29',
             title: '来自深渊的凝视',
-            url: `${BASE_PATH}08-GISI ES语言/29-来自深渊的凝视.html`,
+            url: `${BASE_PATH}08-GlSlES语言/29-来自深渊的凝视.html`,
         },
         {
             index: '8-30',
             title: '数字山谷',
-            url: `${BASE_PATH}08-GISI ES语言/30-数字山谷.html`,
+            url: `${BASE_PATH}08-GlSlES语言/30-数字山谷.html`,
         },
         {
             index: '8-31',
             title: '正弦型放射',
-            url: `${BASE_PATH}08-GISI ES语言/31-正弦型放射.html`,
+            url: `${BASE_PATH}08-GlSlES语言/31-正弦型放射.html`,
         },
         {
             index: '8-32',
             title: '光影沉浮',
-            url: `${BASE_PATH}08-GISI ES语言/32-光影沉浮.html`,
+            url: `${BASE_PATH}08-GlSlES语言/32-光影沉浮.html`,
         },
         {
             index: '8-33',
             title: '湍流',
-            url: `${BASE_PATH}08-GISI ES语言/33-多点同色.html`,
+            url: `${BASE_PATH}08-GlSlES语言/33-湍流.html`,
         }, {
             index: '8-34',
             title: '全景图',
-            url: `${BASE_PATH}08-GISI ES语言/34-全景图.html`,
+            url: `${BASE_PATH}08-GlSlES语言/34-全景图.html`,
         }, {
             index: '8-35',
             title: '金属按钮',
-            url: `${BASE_PATH}08-GISI ES语言/35-金属按钮.html`,
+            url: `${BASE_PATH}08-GlSlES语言/35-金属按钮.html`,
         }
         ]
     },
@@ -581,41 +581,41 @@ export const menuList = [
         {
             index: '9-2',
             title: '位移法则深度认知',
-            url: `${BASE_PATH}09-进入三维世界/.html`,
+            url: `${BASE_PATH}09-进入三维世界/02-位移法则深度认知.html`,
         }, {
             index: '9-3',
             title: '缩放法则',
-            url: `${BASE_PATH}09-进入三维世界/.html`,
+            url: `${BASE_PATH}09-进入三维世界/03-缩放法则.html`,
         }, {
             index: '9-4-1',
             title: '旋转法则',
-            url: `${BASE_PATH}09-进入三维世界/.html`,
+            url: `${BASE_PATH}09-进入三维世界/04-01-旋转法则.html`,
         }, {
             index: '9-4-2',
             title: '验证旋转法则',
-            url: `${BASE_PATH}09-进入三维世界/.html`,
+            url: `${BASE_PATH}09-进入三维世界/04-02-验证旋转法则.html`,
         },
         {
             index: '9-5',
             title: '绕单轴逆时针旋转',
-            url: `${BASE_PATH}09-进入三维世界/.html`,
+            url: `${BASE_PATH}09-进入三维世界/05-绕单轴逆时针旋转.html`,
         },
         {
             index: '9-6',
             title: '欧拉旋转',
-            url: `${BASE_PATH}09-进入三维世界/.html`,
+            url: `${BASE_PATH}09-进入三维世界/06-欧拉旋转.html`,
         }, {
             index: '9-7',
             title: '四元数',
-            url: `${BASE_PATH}09-进入三维世界/.html`,
+            url: `${BASE_PATH}09-进入三维世界/07-四元数.html`,
         }, {
             index: '9-8',
             title: '裁剪空间测试',
-            url: `${BASE_PATH}09-进入三维世界/.html`,
+            url: `${BASE_PATH}09-进入三维世界/08-裁剪空间测试.html`,
         }, {
             index: '9-9',
             title: '解决拉伸问题',
-            url: `${BASE_PATH}09-进入三维世界/.html`,
+            url: `${BASE_PATH}09-进入三维世界/09-解决拉伸问题.html`,
         },
         {
             index: '9-10',
@@ -685,8 +685,8 @@ export const menuList = [
         },
         {
             index: '9-25',
-            title: '透视相机缩放轨道-轨迹球',
-            url: `${BASE_PATH}09-进入三维世界/25-透视相机缩放轨道-轨迹球.html`,
+            title: '透视相机旋转轨道-轨迹球',
+            url: `${BASE_PATH}09-进入三维世界/25-透视相机旋转轨道-轨迹球.html`,
         },
         {
             index: '9-26',
@@ -712,8 +712,8 @@ export const menuList = [
         },
         {
             index: '9-31',
-            title: 'webgl框架测试-多点着色器',
-            url: `${BASE_PATH}09-进入三维世界/31-webgl框架测试-多点着色器.html`,
+            title: 'webgl框架测试-多着色器',
+            url: `${BASE_PATH}09-进入三维世界/31-webgl框架测试-多着色器.html`,
         }, {
             index: '9-32',
             title: 'webgl框架测试-顶点索引',

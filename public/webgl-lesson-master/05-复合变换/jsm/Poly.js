@@ -8,7 +8,7 @@ const defAttr=()=>({
   count:0,
   types: ['POINTS'],
 })
-class Poly{
+export default class Poly{
   constructor(attr){
     Object.assign(this,defAttr(),attr)
     this.init()

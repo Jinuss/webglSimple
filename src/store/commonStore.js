@@ -5,7 +5,7 @@ import { defineStore } from "pinia";
 export const useCommonStore = defineStore('common', {
     state: () => {
         return {
-            currentSrc: menuList[1].url,
+            currentSrc: menuList[0].children[0].url,
             codeContent: ''
         }
     },

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>放射</title>
-  
+  <link rel="icon" href="https://img.kaikeba.com/kkb_portal_icon.ico">
   <style>
     body {
       margin: 0;
@@ -86,9 +86,10 @@
       gl_FragColor = vec4(f, f, f, 1);
     }
   </script>
-<script src="../jsm/Utils.js"></script>
-<script src="../jsm/Poly.js"></script>
-  <script>
+  <script type="module">
+    import { initShaders, parseColorStops } from "../jsm/Utils.js";
+    import Poly from './jsm/Poly.js'
+
     const canvas = document.querySelector("#canvas");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;

@@ -40,5 +40,6 @@ const handleClick = ({ index }) => {
 <style scoped>
 .el-menu-vertical-demo {
   height: 100%;
+  padding: 10px 2px;
 }
 </style>

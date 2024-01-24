@@ -24,4 +24,8 @@ import IframeContainer from './pages/IframeContainer.vue';
 .el-container {
   height: 100%;
 }
+
+.el-main {
+  padding: 10px 2px;
+}
 </style>

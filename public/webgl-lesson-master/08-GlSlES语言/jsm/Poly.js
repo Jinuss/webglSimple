@@ -33,7 +33,7 @@ const defAttr = () => ({
   uniforms: {},
   maps: {}
 })
- class Poly{
+export default class Poly{
   constructor(attr){
     Object.assign(this,defAttr(),attr)
     this.init()
