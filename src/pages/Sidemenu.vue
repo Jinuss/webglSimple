@@ -13,7 +13,6 @@
         </el-menu-item>
       </el-sub-menu>
       <el-menu-item :index="item.index" v-else @click="handleClick">
-        <el-icon><icon-menu /></el-icon>
         <span>{{ item.title }}</span>
       </el-menu-item>
     </template>
