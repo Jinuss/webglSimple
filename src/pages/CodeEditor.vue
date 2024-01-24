@@ -88,9 +88,10 @@ const handleRest = () => {
   color: #fff;
   height: 32px;
   line-height: 32px;
+  border-radius: 4px 4px 0 0;
 
   span {
-    margin: 0 10px;
+    margin: 0 4px;
     display: inline-flex;
     align-items: center;
     align-content: center;
@@ -101,5 +102,6 @@ const handleRest = () => {
 
 .codecontent {
   flex: 1;
+  border-radius: 0 0 4px 4px;
 }
 </style>

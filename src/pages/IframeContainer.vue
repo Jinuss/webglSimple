@@ -39,5 +39,6 @@ iframe {
   height: 100%;
   width: 100%;
   border: none;
+  border-radius: 4px;
 }
 </style>

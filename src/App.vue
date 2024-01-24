@@ -26,6 +26,6 @@ import IframeContainer from './pages/IframeContainer.vue';
 }
 
 .el-main {
-  padding: 10px 2px;
+  padding: 10px 0px;
 }
 </style>
