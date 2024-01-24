@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>绘制圆点</title>
-  <link rel="icon" href="https://img.kaikeba.com/kkb_portal_icon.ico">
+  <title>星星向你眨眼睛</title>
+  
   <style>
     body {
       margin: 0;
@@ -12,13 +12,31 @@
     }
 
     #canvas {
-      background-color: antiquewhite;
+      background: url("./images/sky.jpg");
+      background-size: cover;
+      background-position: right bottom;
+    }
+
+    #audio {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      opacity: 10%;
+      transition: opacity 200ms;
+      z-index: 20;
+    }
+
+    #audio:hover {
+      opacity: 90%;
     }
   </style>
 </head>
 
 <body>
   <canvas id="canvas"></canvas>
+  <audio id="audio" controls loop autoplay>
+    <source src="./audio/cef.mp3" type="audio/mpeg" />
+  </audio>
   <!-- 顶点着色器 -->
   <script id="vertexShader" type="x-shader/x-vertex">
       attribute vec4 a_Position;
@@ -45,6 +63,8 @@
     </script>
   <script type="module">
     import { initShaders } from "../jsm/Utils.js";
+    import Compose from "../jsm/Compose.js";
+    import Track from "../jsm/Track.js";
 
     const canvas = document.querySelector("#canvas");
     canvas.width = window.innerWidth;
@@ -56,6 +76,8 @@
 
     //三维画笔
     const gl = canvas.getContext("webgl");
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     //初始化着色器
     initShaders(gl, vsSource, fsSource);
@@ -66,22 +88,17 @@
     const a_PointSize = gl.getAttribLocation(gl.program, "a_PointSize");
     const u_FragColor = gl.getUniformLocation(gl.program, "u_FragColor");
 
-    const a_points = [
-      { x: 0, y: 0, size: 10, color: { r: 1, g: 0, b: 0, a: 1 } },
-    ];
+    const stars = [];
 
-    //修改attribute 变量
-    // gl.vertexAttrib3f(a_Position, 0, 1, 0);
-    // gl.vertexAttrib2f(a_Position, 0.5, 0.5);
-    // gl.vertexAttrib1f(a_Position, 0.1);
+    //合成对象
+    const compose = new Compose();
 
     //声明颜色 rgba
-    gl.clearColor(0, 0, 0, 1);
+    gl.clearColor(0, 0, 0, 0);
     //刷底色
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     //绘制顶点
-    // gl.drawArrays(gl.POINTS, 0, 1);
     render();
 
     // 鼠标点击事件
@@ -101,24 +118,44 @@
       //解决坐标基底的差异
       const [x, y] = [xBaseCenter / halfWidth, yBaseCenterTop / halfHeight];
 
-      // gl.vertexAttrib2f(a_Position, x, y);
-      // gl.clear(gl.COLOR_BUFFER_BIT);
-      // gl.drawArrays(gl.POINTS, 0, 1);
-      const size = Math.random() * 50 + 10;
-      const n = Math.random();
-      const color = { r: n, g: n, b: 1, a: 1 };
-      a_points.push({ x, y, size, color });
-      render();
+      const s = Math.random() * 5 + 2;
+      const a = 1;
+      const obj = { x, y, s, a };
+      stars.push(obj);
+
+      //建立轨道对象
+      const track = new Track(obj);
+      track.start = new Date();
+      track.timeLen = 2000;
+      track.loop = true;
+      track.keyMap = new Map([
+        [
+          "a",
+          [
+            [500, a],
+            [1000, 0],
+            [1500, a],
+          ],
+        ],
+      ]);
+      compose.add(track);
+
+      // render();
     });
+
+    !(function ani() {
+      compose.update(new Date());
+      render();
+      requestAnimationFrame(ani);
+    })();
 
     // 渲染方法
     function render() {
       gl.clear(gl.COLOR_BUFFER_BIT);
-      a_points.forEach(({ x, y, size, color: { r, g, b, a } }) => {
+      stars.forEach(({ x, y, s, a }) => {
         gl.vertexAttrib2f(a_Position, x, y);
-        gl.vertexAttrib1f(a_PointSize, size);
-        // gl.uniform4f(u_FragColor, r, g, b, a);
-        const arr = new Float32Array([r, g, b, a]);
+        gl.vertexAttrib1f(a_PointSize, s);
+        const arr = new Float32Array([0.87, 0.91, 1, a]);
         gl.uniform4fv(u_FragColor, arr);
         gl.drawArrays(gl.POINTS, 0, 1);
       });

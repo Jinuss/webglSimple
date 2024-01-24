@@ -1,4 +1,4 @@
-import {Vector3} from 'https://unpkg.com/three/build/three.module.js';
+import {Vector3} from '../jsm/three.module.js';
 
 // 逐三角形着色
 function flatShading(vertices,indexes){

@@ -7,9 +7,9 @@ const commonStore = useCommonStore()
 
 const store = storeToRefs(commonStore)
 
-const { codeContent } = store
+const { codeContent, currentSrc } = store
 
-const src = ref('/webgl-lesson-master/01-入门/01-刷底色.html')
+const src = ref(currentSrc)
 const iframeRef = ref()
 
 watch(codeContent, (htmlContent) => {

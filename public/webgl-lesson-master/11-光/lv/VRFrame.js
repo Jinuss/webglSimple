@@ -1,5 +1,5 @@
 import { createProgram } from "./Utils.js";
-import {Matrix4} from 'https://unpkg.com/three/build/three.module.js';
+import {Matrix4} from '../jsm/three.module.js';
 import Mat from './Mat.js'
 import Geo from './Geo.js'
 import Obj3D from './Obj3D.js'

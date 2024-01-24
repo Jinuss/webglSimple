@@ -1,6 +1,6 @@
 import {
       Matrix4, Vector2, Vector3,Spherical
-} from 'https://unpkg.com/three/build/three.module.js';
+} from '../jsm/three.module.js';
     
 const pi2 = Math.PI * 2
 const pvMatrix=new Matrix4()

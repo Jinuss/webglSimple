@@ -1,4 +1,4 @@
-import { Vector2 } from 'https://unpkg.com/three/build/three.module.js';
+import { Vector2 } from '../jsm/three.module.js';
 
 /*
 属性：

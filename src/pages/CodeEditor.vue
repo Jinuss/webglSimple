@@ -1,15 +1,18 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useCommonStore } from '../store/commonStore';
 import MonacoEditor from '../components/MonacoEditor.vue';
 
 const store = useCommonStore()
 
+const { currentSrc } = storeToRefs(store)
+
 let editJson = ref('const t=9')
 
 const getContent = () => {
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/webgl-lesson-master/01-入门/01-刷底色.html', true);
+  xhr.open('GET', currentSrc.value, true);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
       editJson.value = xhr.responseText;
@@ -17,6 +20,8 @@ const getContent = () => {
   }
   xhr.send();
 }
+
+watchEffect(getContent)
 
 onMounted(() => {
   getContent()

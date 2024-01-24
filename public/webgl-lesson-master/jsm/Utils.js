@@ -1,4 +1,4 @@
-import { Vector3} from 'https://unpkg.com/three/build/three.module.js';
+import { Vector3} from '../jsm/three.module.js';
 
 function initShaders(gl, vsSource, fsSource) {
   //创建程序对象

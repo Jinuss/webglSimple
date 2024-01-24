@@ -1,4 +1,4 @@
-import {Euler} from 'https://unpkg.com/three/build/three.module.js';
+import {Euler} from '../jsm/three.module.js';
 
 const rad = Math.PI / 180
 

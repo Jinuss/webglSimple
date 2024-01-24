@@ -9,10 +9,14 @@
 </template>
 
 <script setup>
+import { useCommonStore } from '../store/commonStore';
 import { menuList } from '../config';
 
+const commonStore = useCommonStore()
 const handleClick = (item) => {
+  const i = menuList.filter(({ index }) => index == item)
   console.log("🚀 ~ handleClick ~ item:", item)
+  commonStore.setCuurentSrc(i[0].url)
 }
 
 </script>
