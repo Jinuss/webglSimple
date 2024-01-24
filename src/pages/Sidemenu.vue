@@ -3,6 +3,9 @@
     <template v-for="(item, index) in menuList" :key="item">
       <el-sub-menu :index="item.index" v-if="item?.children">
         <template #title>
+          <el-icon>
+            <Aim />
+          </el-icon>
           <span>{{ item.title }}</span>
         </template>
         <el-menu-item v-for="(child, i) in item.children" :index="child.index" @click="handleClick">
@@ -39,7 +42,7 @@ const handleClick = ({ index }) => {
 </script>
 <style scoped>
 .el-menu-vertical-demo {
-  height: 100%;
+  height: calc(100% - 20px);
   padding: 10px 2px;
 }
 </style>

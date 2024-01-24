@@ -25,7 +25,6 @@ const props = defineProps({
     },
 })
 
-console.log(props)
 const emits = defineEmits(['blue', 'update:modelValue'])
 
 const monacoeditorStyle = computed(() => {
@@ -39,7 +38,6 @@ const { monacEditorRef, createEditor, updateVal, updateOptions, getEditor } = us
 
 onMounted(() => {
     const monacoEditor = createEditor(props.editorOption)
-    console.log("🚀 ~ onMounted ~ monacoEditor:", monacoEditor)
 
     updateMonacoVal(props.modelValue)
     monacoEditor?.onDidChangeModelContent(() => {
@@ -60,7 +58,7 @@ function updateMonacoVal(val) {
     }
 }
 
-defineExpose({ updateOptions })
+defineExpose({ updateOptions, updateMonacoVal })
 </script>
 <template>
     <div ref="monacEditorRef" :style="monacoeditorStyle"></div>

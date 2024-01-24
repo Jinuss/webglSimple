@@ -8,14 +8,17 @@ const store = useCommonStore()
 
 const { currentSrc } = storeToRefs(store)
 
-let editJson = ref('const t=9')
+let constState = null
+
+let initStateRef = ref()
 
 const getContent = () => {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', currentSrc.value, true);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
-      editJson.value = xhr.responseText;
+      initStateRef.value = xhr.responseText;
+      constState = xhr.responseText
     }
   }
   xhr.send();
@@ -32,13 +35,23 @@ const getModelValue = (val) => {
   current.value = val
 }
 
-const handle = () => {
-  if (current.value !== editJson.value) {
+const handleRun = () => {
+  if (current.value !== initStateRef.value) {
     store.setCodeContent(current.value)
   }
 }
 
 const MonacoEditorRef = ref()
+
+const handleRest = () => {
+  if (current.value !== constState) {
+    store.setCodeContent(constState)
+    if (MonacoEditorRef?.value?.updateMonacoVal) {
+      MonacoEditorRef.value.updateMonacoVal(constState)
+    }
+  }
+}
+
 </script>
 
 <template>
@@ -47,15 +60,16 @@ const MonacoEditorRef = ref()
       <span><el-icon>
           <CopyDocument />
         </el-icon>复制</span>
-      <span><el-icon>
+      <span @click="handleRest"><el-icon>
           <RefreshLeft />
         </el-icon>重置</span>
-      <span @click="handle"><el-icon>
+      <span @click="handleRun"><el-icon>
           <VideoPlay />
         </el-icon>运行</span>
     </div>
     <div className="codecontent">
-      <monaco-editor ref="MonacoEditorRef" :modelValue="editJson" @update:modelValue="getModelValue" language="html" />
+      <monaco-editor ref="MonacoEditorRef" :modelValue="initStateRef" @update:modelValue="getModelValue"
+        language="html" />
     </div>
   </div>
 </template>
