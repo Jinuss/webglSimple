@@ -318,7 +318,7 @@ export const menuList = [
     },
     {
         index: "8-0",
-        title: "GISI ES语言",
+        title: "GlSl ES语言",
         children: [{
             index: '8-1',
             title: '打印向量',
