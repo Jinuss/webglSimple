@@ -18,7 +18,7 @@ export const menuList = [
             {
                 index: '4',
                 url: `${BASE_PATH}01-入门/03-一个点.html`,
-                title: '一个点',
+                title: '绘制XY坐标轴',
             },
         ]
     },
@@ -39,53 +39,8 @@ export const menuList = [
         children: [
             {
                 index: '3-1',
-                title: "多个点",
+                title: "多种图形",
                 url: `${BASE_PATH}03-绘制三角形/01-绘制多点.html`,
-            },
-            {
-                index: '3-2',
-                title: "三角面",
-                url: `${BASE_PATH}03-绘制三角形/02-三角面.html`,
-            },
-            {
-                index: '3-3',
-                title: "矩形面",
-                url: `${BASE_PATH}03-绘制三角形/03-矩形面.html`,
-            },
-            {
-                index: '3-4',
-                title: "线",
-                url: `${BASE_PATH}03-绘制三角形/03-线.html`,
-            },
-            {
-                index: '3-5',
-                title: "独立三角形",
-                url: `${BASE_PATH}03-绘制三角形/04-独立三角形.html`,
-            },
-            {
-                index: '3-6',
-                title: "三角带",
-                url: `${BASE_PATH}03-绘制三角形/05-三角带.html`,
-            },
-            {
-                index: '3-7',
-                title: "三角扇",
-                url: `${BASE_PATH}03-绘制三角形/06-三角扇.html`,
-            },
-            {
-                index: '3-8',
-                title: "三角带画矩形",
-                url: `${BASE_PATH}03-绘制三角形/07-三角带画矩形.html`,
-            },
-            {
-                index: '3-9',
-                title: "三角扇画矩形",
-                url: `${BASE_PATH}03-绘制三角形/08-三角扇画矩形.html`,
-            },
-            {
-                index: '3-10',
-                title: "独立三角形拼矩形",
-                url: `${BASE_PATH}03-绘制三角形/09-独立三角形拼矩形.html`,
             },
             {
                 index: '3-11',
@@ -98,11 +53,6 @@ export const menuList = [
                 url: `${BASE_PATH}03-绘制三角形/11-图形封装.html`,
             },
             {
-                index: '3-13',
-                title: "鼠标画线",
-                url: `${BASE_PATH}03-绘制三角形/12-鼠标画线.html`,
-            },
-            {
                 index: '3-14-1',
                 title: "鼠标绘制线条",
                 url: `${BASE_PATH}03-绘制三角形/12-鼠标绘制线条.html`,
@@ -110,11 +60,6 @@ export const menuList = [
                 index: '3-14-2',
                 title: "鼠标画多线",
                 url: `${BASE_PATH}03-绘制三角形/13-鼠标画多线.html`,
-            },
-            {
-                index: '3-15',
-                title: "鼠标绘制多线",
-                url: `${BASE_PATH}03-绘制三角形/13-鼠标绘制多线.html`,
             },
             {
                 index: '3-16',
@@ -138,39 +83,19 @@ export const menuList = [
         title: "矩阵变换",
         children: [
             {
-                index: "4-1-1",
-                title: "位移",
-                url: `${BASE_PATH}04-矩阵变换/01-01-位移.html`,
-            },
-            {
                 index: "4-1-2",
                 title: "js位移图形",
                 url: `${BASE_PATH}04-矩阵变换/01-02-js位移图形.html`,
             },
             {
-                index: "4-2-1",
-                title: "旋转",
-                url: `${BASE_PATH}04-矩阵变换/02-01-旋转.html`,
-            },
-            {
                 index: "4-2-2",
                 title: "js旋转图形",
                 url: `${BASE_PATH}04-矩阵变换/02-02-js旋转图形.html`,
-            }
-            , {
-                index: "4-3-1",
-                title: "缩放",
-                url: `${BASE_PATH}04-矩阵变换/03-01-缩放.html`,
             },
             {
                 index: "4-3-2",
                 title: "js缩放图形",
                 url: `${BASE_PATH}04-矩阵变换/03-02-js缩放图形.html`,
-            },
-            {
-                index: "4-4",
-                title: "二维矩阵",
-                url: `${BASE_PATH}04-矩阵变换/04-01-二维矩阵.html`,
             },
             {
                 index: "4-4-2",

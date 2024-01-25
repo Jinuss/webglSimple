@@ -1,5 +1,5 @@
 export default class ShapeGeo {
-  constructor(pathData = []) {
+  constructor(pathData=[]) {
     this.pathData = pathData;
     this.geoData = [];
     this.triangles = [];

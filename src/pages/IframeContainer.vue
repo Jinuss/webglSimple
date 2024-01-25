@@ -13,15 +13,20 @@ const src = ref(currentSrc)
 const iframeRef = ref()
 
 watch(codeContent, (htmlContent) => {
-  var blob = new Blob([htmlContent], { type: 'text/html' });
-  var url = URL.createObjectURL(blob);
-  src.value = url;
+  // fs.writeFile('./put.html', htmlContent, err => {
+  //   console.log(err)
+  // })
+  const iframeDoc = iframeRef.value.contentDocument || iframeRef.value.contentWindow.document
+  console.log("🚀 ~ watch ~ iframeRef:", iframeRef)
+  iframeDoc.open();
+  iframeDoc.write(htmlContent);
+  iframeDoc.close();
 })
 </script>
 
 <template>
   <div id="iframeconatiner">
-    <iframe ref="iframeRef" :src="src"></iframe>
+    <iframe :src="src" ref="iframeRef"></iframe>
   </div>
 </template>
 
