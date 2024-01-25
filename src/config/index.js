@@ -200,24 +200,9 @@ export const menuList = [
         title: "颜色与纹理",
         children: [
             {
-                index: '6-1',
-                title: '多点同色',
-                url: `${BASE_PATH}06-颜色与纹理/01-多点同色.html`,
-            },
-            {
-                index: '6-2',
-                title: '多点异色',
-                url: `${BASE_PATH}06-颜色与纹理/02-多点异色.html`,
-            },
-            {
-                index: '6-3',
-                title: '数据合一',
-                url: `${BASE_PATH}06-颜色与纹理/03-数据合一.html`,
-            },
-            {
                 index: '6-4',
-                title: '彩色三角形',
-                url: `${BASE_PATH}06-颜色与纹理/04-彩色三角形.html`,
+                title: '坐标系贴图',
+                url: `${BASE_PATH}06-颜色与纹理/01-绘制多点.html`,
             },
             {
                 index: '6-5',
