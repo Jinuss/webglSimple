@@ -13,11 +13,19 @@
       #canvas {
         background-color: antiquewhite;
       }
+      #tod {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0);
+      }
     </style>
   </head>
 
   <body>
     <canvas id="canvas"></canvas>
+    <canvas id="tod"></canvas>
     <!-- 顶点着色器 -->
     <script id="vertexShader" type="x-shader/x-vertex">
       attribute vec4 a_Position;
@@ -42,8 +50,25 @@
           gl_FragColor=v_Color;
       }
     </script>
+    <script id="vertexShader2" type="x-shader/x-vertex">
+      attribute vec4 a_Position;
+      attribute vec2 a_Pin;
+      varying vec2 v_Pin;
+      void main(){
+        gl_Position = a_Position;
+        v_Pin=a_Pin;
+      }
+    </script>
+    <script id="fragmentShader2" type="x-shader/x-fragment">
+      precision mediump float;
+      uniform sampler2D u_Sampler;
+      varying vec2 v_Pin;
+      void main(){
+        gl_FragColor=texture2D(u_Sampler,v_Pin);
+      }
+    </script>
     <script type="module">
-      import { initShaders } from "../jsm/Utils.js";
+      import { getProgram } from "../jsm/Utils.js";
 
       const canvas = document.querySelector("#canvas");
       canvas.width = window.innerWidth;
@@ -56,196 +81,262 @@
       //三维画笔
       const gl = canvas.getContext("webgl");
 
-      //初始化着色器
-      initShaders(gl, vsSource, fsSource);
+      function renderLoop() {
+        //刷底色
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        //初始化着色器
+        const program1 = getProgram(gl, vsSource, fsSource);
 
-      //如何向attribute 变量中写入多点，并绘制多点
-      //顶点数据
+        //启动程序对象
+        gl.useProgram(program1);
+        //将程序对象挂到上下文对象上
+        gl.program = program1;
+        //如何向attribute 变量中写入多点，并绘制多点
+        //顶点数据
 
-      const xyColor = [1, 0, 0, 1];
-      //坐标轴数据
-      const xy = [
-        0,
-        0,
-        ...xyColor,
-        0,
-        1,
-        ...xyColor,
-        0,
-        -1,
-        ...xyColor,
-        1,
-        0,
-        ...xyColor,
-        -1,
-        0,
-        ...xyColor,
-        0,
-        0.5,
-        ...xyColor,
-        0.5,
-        0,
-        ...xyColor,
-        0,
-        -0.5,
-        1,
-        0,
-        0,
-        1,
-        -0.5,
-        0,
-        ...xyColor,
-      ];
+        const xyColor = [1, 0, 0, 1];
+        //坐标轴数据
+        const xy = [
+          0,
+          0,
+          ...xyColor,
+          0,
+          1,
+          ...xyColor,
+          0,
+          -1,
+          ...xyColor,
+          1,
+          0,
+          ...xyColor,
+          -1,
+          0,
+          ...xyColor,
+          0,
+          0.5,
+          ...xyColor,
+          0.5,
+          0,
+          ...xyColor,
+          0,
+          -0.5,
+          1,
+          0,
+          0,
+          1,
+          -0.5,
+          0,
+          ...xyColor,
+        ];
 
-      const sanjiaoColor = [0, 1, 0, 1];
-      //三角面坐标点
-      const sanjiao = [
-        -0.25,
-        0.4,
-        ...[0, 1, 0, 1],
-        -0.35,
-        0.2,
-        ...[1, 0, 0, 1],
-        -0.15,
-        0.2,
-        ...[0, 0, 1, 1],
-      ];
+        const sanjiaoColor = [0, 1, 0, 1];
+        //三角面坐标点
+        const sanjiao = [
+          -0.25,
+          0.4,
+          ...[0, 1, 0, 1],
+          -0.35,
+          0.2,
+          ...[1, 0, 0, 1],
+          -0.15,
+          0.2,
+          ...[0, 0, 1, 1],
+        ];
 
-      const juxianColor = [0, 0, 1, 1];
-      //矩形面
-      const juxian = [
-        -0.8,
-        0.2,
-        ...juxianColor,
-        -0.6,
-        0.2,
-        ...juxianColor,
-        -0.8,
-        0.4,
-        ...juxianColor,
-        -0.6,
-        0.4,
-        ...juxianColor,
-      ];
+        const juxianColor = [0, 0, 1, 1];
+        //矩形面
+        const juxian = [
+          -0.8,
+          0.2,
+          ...juxianColor,
+          -0.6,
+          0.2,
+          ...juxianColor,
+          -0.8,
+          0.4,
+          ...juxianColor,
+          -0.6,
+          0.4,
+          ...juxianColor,
+        ];
 
-      const loopColor = [0.5, 1, 0, 1];
-      //闭合线条
-      const loopLine = [
-        -0.8,
-        0.6,
-        ...loopColor,
-        -0.7,
-        0.7,
-        ...loopColor,
-        -0.6,
-        0.6,
-        ...loopColor,
-      ];
+        const vertices = new Float32Array([...xy, ...sanjiao, ...juxian]);
 
-      const normalColor = [0.1, 0.3, 0, 1];
-      //三角形
-      const normal = [
-        0.1,
-        0.3,
-        ...normalColor,
-        0,
-        0.1,
-        ...normalColor,
-        0.2,
-        0.1,
-        ...normalColor,
-        0.3,
-        0.3,
-        ...normalColor,
-        0.2,
-        0.1,
-        ...normalColor,
-        0.4,
-        0.1,
-        ...normalColor,
-      ];
+        //元素字节数
+        const elementBytes = vertices.BYTES_PER_ELEMENT;
+        //系列尺寸
+        const verticeSize = 2;
+        const colorSize = 4;
+        //类目尺寸
+        const categorySize = verticeSize + colorSize;
+        //类目字节数
+        const categoryBytes = categorySize * elementBytes;
+        //系列字节索引位置
+        const verticeByteIndex = 0;
+        const colorByteIndex = verticeSize * elementBytes;
+        //顶点总数
+        const sourceSize = vertices.length / categorySize;
 
-      const vertices = new Float32Array([
-        ...xy,
-        ...sanjiao,
-        ...juxian,
-        ...loopLine,
-        ...normal,
-      ]);
+        //缓冲对象
+        const vertexBuffer = gl.createBuffer();
+        //绑定缓冲对象
+        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+        //写入数据
+        gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+        //获取attribute 变量
+        const a_Position = gl.getAttribLocation(gl.program, "a_Position");
+        //修改attribute 变量
+        gl.vertexAttribPointer(
+          a_Position,
+          verticeSize,
+          gl.FLOAT,
+          false,
+          categoryBytes,
+          verticeByteIndex
+        );
+        //赋能-批处理
+        gl.enableVertexAttribArray(a_Position);
 
-      //元素字节数
-      const elementBytes = vertices.BYTES_PER_ELEMENT;
-      //系列尺寸
-      const verticeSize = 2;
-      const colorSize = 4;
-      //类目尺寸
-      const categorySize = verticeSize + colorSize;
-      //类目字节数
-      const categoryBytes = categorySize * elementBytes;
-      //系列字节索引位置
-      const verticeByteIndex = 0;
-      const colorByteIndex = verticeSize * elementBytes;
-      //顶点总数
-      const sourceSize = vertices.length / categorySize;
+        //颜色
 
-      //缓冲对象
-      const vertexBuffer = gl.createBuffer();
-      //绑定缓冲对象
-      gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-      //写入数据
-      gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-      //获取attribute 变量
-      const a_Position = gl.getAttribLocation(gl.program, "a_Position");
-      //修改attribute 变量
-      gl.vertexAttribPointer(
-        a_Position,
-        verticeSize,
-        gl.FLOAT,
-        false,
-        categoryBytes,
-        verticeByteIndex
-      );
-      //赋能-批处理
-      gl.enableVertexAttribArray(a_Position);
+        //获取attribute 变量
+        const a_Color = gl.getAttribLocation(gl.program, "a_Color");
+        //修改attribute 变量
+        gl.vertexAttribPointer(
+          a_Color,
+          colorSize,
+          gl.FLOAT,
+          false,
+          categoryBytes,
+          colorByteIndex
+        );
+        //赋能-批处理
+        gl.enableVertexAttribArray(a_Color);
 
-      //颜色
+        //声明颜色 rgba
+        gl.clearColor(0, 0, 0, 1);
 
-      //获取attribute 变量
-      const a_Color = gl.getAttribLocation(gl.program, "a_Color");
-      //修改attribute 变量
-      gl.vertexAttribPointer(
-        a_Color,
-        colorSize,
-        gl.FLOAT,
-        false,
-        categoryBytes,
-        colorByteIndex
-      );
-      //赋能-批处理
-      gl.enableVertexAttribArray(a_Color);
+        //绘制顶点
+        gl.drawArrays(gl.POINTS, 0, 9);
+        gl.lineWidth(10.0);
+        gl.drawArrays(gl.LINES, 1, 2);
+        gl.drawArrays(gl.LINES, 3, 2);
 
-      //声明颜色 rgba
-      gl.clearColor(0, 0, 0, 1);
-      //刷底色
-      gl.clear(gl.COLOR_BUFFER_BIT);
+        // 绘制三角形
+        gl.drawArrays(gl.TRIANGLES, 9, 3);
 
-      //绘制顶点
-      gl.drawArrays(gl.POINTS, 0, 9);
-      gl.lineWidth(10.0);
-      gl.drawArrays(gl.LINES, 1, 2);
-      gl.drawArrays(gl.LINES, 3, 2);
+        //绘制矩形面
+        gl.drawArrays(gl.TRIANGLE_STRIP, 12, 4);
 
-      // 绘制三角形
-      gl.drawArrays(gl.TRIANGLES, 9, 3);
+        // 文字标注
+        // 保存 WebGL 状态
+        const webglState = gl.getParameter(gl.VIEWPORT);
+        const toCanvas = document.querySelector("#tod");
+        toCanvas.width = window.innerWidth;
+        toCanvas.height = window.innerHeight;
+        const context = toCanvas.getContext("2d");
+        console.log("🚀 ~ context:", context);
+        const text = "矩形"; // 替换为实际的文字
+        const fontSize = 88;
+        const fontFamily = "Arial";
+        context.fillStyle = "red";
+        context.font = `${fontSize}px ${fontFamily}`;
+        context.textAlign = "center";
+        context.fillText(text, 140, 260);
 
-      //绘制矩形面
-      gl.drawArrays(gl.TRIANGLE_STRIP, 12, 4);
+        //第二个webgl程序
+        // 获取着色器文本
+        const vsSource2 = document.querySelector("#vertexShader2").innerText;
+        const fsSource2 = document.querySelector("#fragmentShader2").innerText;
 
-      //绘制闭合线条
-      gl.drawArrays(gl.LINE_LOOP, 16, 3);
+        //初始化着色器
+        const program2 = getProgram(gl, vsSource2, fsSource2);
+        gl.useProgram(program2);
+        gl.program = program2;
+        //数据源
+        const source = new Float32Array([
+          -0.5, 0.5, 0, 1, -0.5, -0.5, 0, 0.0, 0.5, 0.5, 1.0, 1, 0.5, -0.5, 1.0,
+          0.0,
+        ]);
+        const FSIZE = source.BYTES_PER_ELEMENT;
+        //元素字节数
+        const elementBytes2 = source.BYTES_PER_ELEMENT;
+        //系列尺寸
+        const posSize = 2;
+        const pinSize = 2;
+        //类目尺寸
+        const categorySize2 = posSize + pinSize;
+        //类目字节数
+        const categoryBytes2 = categorySize2 * elementBytes2;
+        //系列字节索引位置
+        const posByteIndex = 0;
+        const pinByteIndex = posSize * elementBytes2;
+        //顶点总数
+        const sourceSize2 = source.length / categorySize2;
 
-      //三角形
-      gl.drawArrays(gl.TRIANGLES, 19, 6);
+        const sourceBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, sourceBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, source, gl.STATIC_DRAW);
+
+        const a_Position2 = gl.getAttribLocation(gl.program, "a_Position");
+        gl.vertexAttribPointer(
+          a_Position2,
+          posSize,
+          gl.FLOAT,
+          false,
+          categoryBytes2,
+          posByteIndex
+        );
+        gl.enableVertexAttribArray(a_Position2);
+
+        const a_Pin = gl.getAttribLocation(gl.program, "a_Pin");
+        gl.vertexAttribPointer(
+          a_Pin,
+          pinSize,
+          gl.FLOAT,
+          false,
+          categoryBytes2,
+          pinByteIndex
+        );
+        gl.enableVertexAttribArray(a_Pin);
+
+        /* 图像预处理 */
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+
+        /* 准备三个角色 */
+        gl.activeTexture(gl.TEXTURE0);
+
+        const imgDataUrl = toCanvas.toDataURL();
+        const texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        const image = new Image();
+        image.src = imgDataUrl;
+        image.onload = function () {
+          gl.texImage2D(
+            gl.TEXTURE_2D,
+            0,
+            gl.RGBA,
+            gl.RGBA,
+            gl.UNSIGNED_BYTE,
+            image
+          );
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+          const u_Sampler = gl.getUniformLocation(gl.program, "u_Sampler");
+          gl.uniform1i(u_Sampler, 0);
+
+          render();
+        };
+
+        //渲染
+        function render() {
+          gl.drawArrays(gl.TRIANGLE_STRIP, 0, sourceSize2);
+        }
+        requestAnimationFrame(renderLoop);
+      }
+      renderLoop();
     </script>
   </body>
 </html>

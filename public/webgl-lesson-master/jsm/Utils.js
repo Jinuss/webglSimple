@@ -1,4 +1,4 @@
-import { Vector3} from '../jsm/three.module.js';
+import { Vector3 } from '../jsm/three.module.js';
 
 function initShaders(gl, vsSource, fsSource) {
   //创建程序对象
@@ -18,6 +18,26 @@ function initShaders(gl, vsSource, fsSource) {
   gl.program = program;
   return true;
 }
+
+function getProgram(gl, vsSource, fsSource) {
+  //创建程序对象
+  const program = gl.createProgram();
+  //建立着色对象
+  const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vsSource);
+  const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fsSource);
+  //把顶点着色对象装进程序对象中
+  gl.attachShader(program, vertexShader);
+  //把片元着色对象装进程序对象中
+  gl.attachShader(program, fragmentShader);
+  //连接webgl上下文对象和程序对象
+  gl.linkProgram(program);
+  // //启动程序对象
+  // gl.useProgram(program);
+  // //将程序对象挂到上下文对象上
+  // gl.program = program;
+  return program;
+}
+
 function createProgram(gl, vsSource, fsSource) {
   //创建程序对象
   const program = gl.createProgram();
@@ -101,39 +121,39 @@ function GetIndexInGrid(w, size) {
 }
 
 /* 对Image 加载事件的封装 */
-function imgPromise(img){
-  return new Promise((resolve)=>{
-    img.onload=function(){
-        resolve(img);
+function imgPromise(img) {
+  return new Promise((resolve) => {
+    img.onload = function () {
+      resolve(img);
     }
   });
 }
 
 /* 解析渐变节点 */
 function parseColorStops(source) {
-    const stops = new Array(16).fill(-1);
-    source.forEach(({ color, stop }, stopInd) => {
-        let rgb = '';
-        let ar = '';
-        color.forEach((ele, ind) => {
-          //1 1001 '1001' '001'
-          const str = (ele + 1000).toString().slice(1);
-          if (ind < 3) {
-              rgb += str;
-          } else {
-              ar += str;
-          }
-        })
-        ar += (Math.round(stop * 255) + 1000).toString().slice(1);
-        stops[stopInd * 2] = rgb;
-        stops[stopInd * 2 + 1] = ar;
+  const stops = new Array(16).fill(-1);
+  source.forEach(({ color, stop }, stopInd) => {
+    let rgb = '';
+    let ar = '';
+    color.forEach((ele, ind) => {
+      //1 1001 '1001' '001'
+      const str = (ele + 1000).toString().slice(1);
+      if (ind < 3) {
+        rgb += str;
+      } else {
+        ar += str;
+      }
     })
-    return stops;
+    ar += (Math.round(stop * 255) + 1000).toString().slice(1);
+    stops[stopInd * 2] = rgb;
+    stops[stopInd * 2 + 1] = ar;
+  })
+  return stops;
 }
 
-const isPC=()=>!navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+const isPC = () => !navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
 
-function worldPos({ clientX, clientY },canvas,pvMatrix) {
+function worldPos({ clientX, clientY }, canvas, pvMatrix) {
   const [hw, hh] = [canvas.width / 2, canvas.height / 2]
   // 裁剪空间位
   const cp = new Vector3(
@@ -151,6 +171,7 @@ function worldPos({ clientX, clientY },canvas,pvMatrix) {
 export {
   imgPromise,
   initShaders,
+  getProgram,
   createProgram,
   getMousePosInWebgl,
   glToCssPos,
