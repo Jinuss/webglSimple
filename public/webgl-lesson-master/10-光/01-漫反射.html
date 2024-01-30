@@ -1,176 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>漫反射</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <title>漫反射</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden
-    }
-  </style>
-</head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script id="vs" type="x-shader/x-vertex">
+      attribute vec4 a_Position;
+      attribute vec3 a_Normal;
+      uniform mat4 u_PvMatrix;
+      uniform mat4 u_ModelMatrix;
+      varying vec3 v_Normal;
+      void main(){
+        gl_Position = u_PvMatrix*u_ModelMatrix*a_Position;
+        v_Normal=a_Normal;
+      }
+    </script>
+    <script id="fs" type="x-shader/x-fragment">
+      precision mediump float;
+      uniform vec3 u_Kd;
+      uniform vec3 u_LightDir;
+      varying vec3 v_Normal;
+      void main(){
+        vec3 diffuse=u_Kd*max(0.0,dot(v_Normal,u_LightDir));
+        gl_FragColor=vec4(diffuse,1.0);
+      }
+    </script>
+    <script type="module">
+      import { createProgram, imgPromise } from "../jsm/Utils.js";
+      import {
+        Matrix4,
+        PerspectiveCamera,
+        Vector3,
+        SphereGeometry,
+      } from "../jsm/three.module.js";
+      import { fetchFile, loadShaderFiles } from "../jsm/loadShaderFiles.js";
+      import OrbitControls from "./lv/OrbitControls.js";
+      import Mat from "./lv/Mat.js";
+      import Geo from "./lv/Geo.js";
+      import Obj3D from "./lv/Obj3D.js";
+      import Scene from "./lv/Scene.js";
 
-<body>
-  <canvas id="canvas"></canvas>
-  <script id="vs" type="x-shader/x-vertex">
-    attribute vec4 a_Position;
-    attribute vec3 a_Normal;
-    uniform mat4 u_PvMatrix;
-    uniform mat4 u_ModelMatrix;
-    varying vec3 v_Normal;
-    void main(){
-      gl_Position = u_PvMatrix*u_ModelMatrix*a_Position;
-      v_Normal=a_Normal;
-    }
-  </script>
-  <script id="fs" type="x-shader/x-fragment">
-    precision mediump float;
-    uniform vec3 u_Kd;
-    uniform vec3 u_LightDir;
-    varying vec3 v_Normal;
-    void main(){
-      vec3 diffuse=u_Kd*max(0.0,dot(v_Normal,u_LightDir));
-      gl_FragColor=vec4(diffuse,1.0);
-    }
-  </script>
-  <script type="module">
-    import { createProgram, imgPromise } from '../jsm/Utils.js';
-    import {
-      Matrix4, PerspectiveCamera, Vector3,
-      SphereGeometry
-    } from '../jsm/three.module.js';
-    import OrbitControls from './lv/OrbitControls.js'
-    import Mat from './lv/Mat.js'
-    import Geo from './lv/Geo.js'
-    import Obj3D from './lv/Obj3D.js'
-    import Scene from './lv/Scene.js'
+      loadShaderFiles("./lv/vs.vert", "./lv/fs.frag").then((resp) => {
+        console.log("🚀 ~ resp:", resp);
+      });
 
-    const canvas = document.getElementById('canvas');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    let gl = canvas.getContext('webgl');
-    gl.clearColor(0, 0, 0, 1);
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-    gl.enable(gl.DEPTH_TEST);
+      const canvas = document.getElementById("canvas");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      let gl = canvas.getContext("webgl");
+      gl.clearColor(0, 0, 0, 1);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+      gl.enable(gl.DEPTH_TEST);
 
+      // 目标点
+      const target = new Vector3();
+      //视点
+      const eye = new Vector3(0, 0, 3);
+      const [fov, aspect, near, far] = [
+        45,
+        canvas.width / canvas.height,
+        1,
+        20,
+      ];
+      // 透视相机
+      const camera = new PerspectiveCamera(fov, aspect, near, far);
+      camera.position.copy(eye);
+      // 轨道控制器
+      const orbit = new OrbitControls({ camera, target, dom: canvas });
 
-    // 目标点
-    const target = new Vector3()
-    //视点
-    const eye = new Vector3(0, 0, 3)
-    const [fov, aspect, near, far] = [
-      45, canvas.width / canvas.height,
-      1, 20
-    ]
-    // 透视相机
-    const camera = new PerspectiveCamera(fov, aspect, near, far)
-    camera.position.copy(eye)
-    // 轨道控制器
-    const orbit = new OrbitControls({ camera, target, dom: canvas, })
+      // 阳光光线方向
+      const lightDir = new Vector3(0.5, 1, 1).normalize();
+      // 漫反射系数- 颜色
+      const u_Kd = [0.7, 0.7, 0.7];
+      // 球体
+      const sphere = new SphereGeometry(0.5, 12, 12);
+      // 顶点集合
+      const { array: vertices } = sphere.getAttribute("position");
+      // 法线集合
+      const { array: normals } = sphere.getAttribute("normal");
+      // 顶点索引集合
+      const { array: indexes } = sphere.index;
 
-    // 阳光光线方向
-    const lightDir = new Vector3(0.5, 1, 1).normalize()
-    // 漫反射系数- 颜色
-    const u_Kd = [0.7, 0.7, 0.7]
-    // 球体
-    const sphere = new SphereGeometry(0.5, 12, 12)
-    // 顶点集合
-    const { array: vertices } = sphere.getAttribute('position')
-    // 法线集合
-    const { array: normals } = sphere.getAttribute('normal')
-    // 顶点索引集合
-    const { array: indexes } = sphere.index
-
-    // 场景
-    const scene = new Scene({ gl })
-    //注册程序对象
-    scene.registerProgram(
-      'Blinn-Phong',
-      {
+      // 场景
+      const scene = new Scene({ gl });
+      //注册程序对象
+      scene.registerProgram("Blinn-Phong", {
         program: createProgram(
           gl,
-          document.getElementById('vs').innerText,
-          document.getElementById('fs').innerText,
+          document.getElementById("vs").innerText,
+          document.getElementById("fs").innerText
         ),
-        attributeNames: ['a_Position', 'a_Normal'],
-        uniformNames: [
-          'u_PvMatrix', 'u_ModelMatrix', 'u_Kd', 'u_LightDir'
-        ]
-      }
-    )
+        attributeNames: ["a_Position", "a_Normal"],
+        uniformNames: ["u_PvMatrix", "u_ModelMatrix", "u_Kd", "u_LightDir"],
+      });
 
-    const mat = new Mat({
-      program: 'Blinn-Phong',
-      data: {
-        u_PvMatrix: {
-          value: orbit.getPvMatrix().elements,
-          type: 'uniformMatrix4fv',
+      const mat = new Mat({
+        program: "Blinn-Phong",
+        data: {
+          u_PvMatrix: {
+            value: orbit.getPvMatrix().elements,
+            type: "uniformMatrix4fv",
+          },
+          u_ModelMatrix: {
+            value: new Matrix4().elements,
+            type: "uniformMatrix4fv",
+          },
+          u_Kd: {
+            value: u_Kd,
+            type: "uniform3fv",
+          },
+          u_LightDir: {
+            value: [...lightDir],
+            type: "uniform3fv",
+          },
         },
-        u_ModelMatrix: {
-          value: new Matrix4().elements,
-          type: 'uniformMatrix4fv',
+      });
+      const geo = new Geo({
+        data: {
+          a_Position: {
+            array: vertices,
+            size: 3,
+          },
+          a_Normal: {
+            array: normals,
+            size: 3,
+          },
         },
-        u_Kd: {
-          value: u_Kd,
-          type: 'uniform3fv'
+        index: {
+          array: indexes,
         },
-        u_LightDir: {
-          value: [...lightDir],
-          type: 'uniform3fv'
-        },
-      },
-    })
-    const geo = new Geo({
-      data: {
-        a_Position: {
-          array: vertices,
-          size: 3
-        },
-        a_Normal: {
-          array: normals,
-          size: 3
-        }
-      },
-      index: {
-        array: indexes
-      }
-    })
-    const obj = new Obj3D({ geo, mat })
-    scene.add(obj)
-    scene.draw()
+      });
+      const obj = new Obj3D({ geo, mat });
+      scene.add(obj);
+      scene.draw();
 
-    !(function ani() {
-      orbit.getPvMatrix()
-      scene.draw()
-      requestAnimationFrame(ani)
-    })()
+      !(function ani() {
+        orbit.getPvMatrix();
+        scene.draw();
+        requestAnimationFrame(ani);
+      })();
 
-    /* 取消右击菜单的显示 */
-    canvas.addEventListener('contextmenu', event => {
-      event.preventDefault()
-    })
-    /* 指针按下时，设置拖拽起始位，获取轨道控制器状态。 */
-    canvas.addEventListener('pointerdown', event => {
-      orbit.pointerdown(event)
-    })
-    /* 指针移动时，若控制器处于平移状态，平移相机；若控制器处于旋转状态，旋转相机。 */
-    canvas.addEventListener('pointermove', event => {
-      orbit.pointermove(event)
-    })
-    /* 指针抬起 */
-    canvas.addEventListener('pointerup', event => {
-      orbit.pointerup(event)
-    })
-    /* 滚轮事件 */
-    canvas.addEventListener('wheel', event => {
-      orbit.wheel(event)
-    })
-
-
-  </script>
-</body>
-
+      /* 取消右击菜单的显示 */
+      canvas.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+      });
+      /* 指针按下时，设置拖拽起始位，获取轨道控制器状态。 */
+      canvas.addEventListener("pointerdown", (event) => {
+        orbit.pointerdown(event);
+      });
+      /* 指针移动时，若控制器处于平移状态，平移相机；若控制器处于旋转状态，旋转相机。 */
+      canvas.addEventListener("pointermove", (event) => {
+        orbit.pointermove(event);
+      });
+      /* 指针抬起 */
+      canvas.addEventListener("pointerup", (event) => {
+        orbit.pointerup(event);
+      });
+      /* 滚轮事件 */
+      canvas.addEventListener("wheel", (event) => {
+        orbit.wheel(event);
+      });
+    </script>
+  </body>
 </html>
