@@ -52,7 +52,7 @@
       gl.enableVertexAttribArray(a_Position);
 
       const u_Matrix = gl.getUniformLocation(gl.program, "u_Matrix");
-      let angle = 0.5;
+      let angle = -Math.PI/2;
       const sinB = Math.sin(angle);
       const cosB = Math.cos(angle);
       const matrix = [cosB, sinB, -sinB, cosB];
@@ -63,17 +63,17 @@
 
       gl.drawArrays(gl.TRIANGLES, 0, 3);
 
-      !(function ani() {
-        angle += 0.05;
-        const sinB = Math.sin(angle);
-        const cosB = Math.cos(angle);
-        const matrix = [cosB, sinB, -sinB, cosB];
-        gl.uniformMatrix2fv(u_Matrix, false, matrix);
+      // !(function ani() {
+      //   angle += 0.05;
+      //   const sinB = Math.sin(angle);
+      //   const cosB = Math.cos(angle);
+      //   const matrix = [cosB, sinB, -sinB, cosB];
+      //   gl.uniformMatrix2fv(u_Matrix, false, matrix);
 
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
-        requestAnimationFrame(ani);
-      })();
+      //   gl.clear(gl.COLOR_BUFFER_BIT);
+      //   gl.drawArrays(gl.TRIANGLES, 0, 3);
+      //   requestAnimationFrame(ani);
+      // })();
     </script>
   </body>
 </html>
